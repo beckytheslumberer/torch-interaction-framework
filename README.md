@@ -7,13 +7,13 @@
 
 ---
 
-> **📖 Full deep dive →** [beckytheslumberer.github.io/becky-crawford-portfolio/#/torch-interaction](https://beckytheslumberer.github.io/becky-crawford-portfolio/#/torch-interaction)
+> **📖 Deep dive →** [Becky Crawford Portfolio - Interaction Framework](https://beckytheslumberer.github.io/becky-crawford-portfolio/#/torch-interaction)
 
 ---
 
 ## Overview
 
-Built for a survival game in UE5, this framework solves the problem of scaling interaction logic across a growing number of world actors — items, tools, trees, dig spots, ladders, bridges, and more — without coupling any of that logic to the player character.
+Built for a survival game in UE5, this framework solves the problem of scaling interaction logic across a growing number of actors — items, tools, trees, dig spots, ladders, bridges, and more — without coupling any of that logic to the player character.
 
 The system is built around three C++ files: an interface that defines the interaction contract, a component that any actor can adopt to become interactable, and a component that sits on the player and handles tracing and input dispatch. Once compiled, the entire system is usable from Blueprint with no further C++ required.
 
@@ -23,11 +23,11 @@ The system is built around three C++ files: an interface that defines the intera
 
 ## Features
 
-- **Zero coupling** — the player character holds no references to any specific interactable type
+- **No coupling** — the player character holds no references to any specific interactable type
 - **Two interaction types** — primary Interact and secondary Action, independently togglable per actor
 - **Blueprint-first** — all interaction logic is wired via assignable delegates; no subclassing needed
 - **Consistent reach** — interaction range is anchored to the character's world position, so spring arm zoom never affects reach
-- **Tag-based access control** — actors can require the interactor to carry specific tags (e.g. equipping an axe to enable tree chopping)
+- **Tag-based access control** — actors can require the interactor to carry specific tags
 - **Focus events** — `OnFocusGained` / `OnFocusLost` delegates for driving highlight effects and UI
 - **Debug tooling** — live trace visualisation and a `DebugLastHitResult` property for runtime debug widgets
 
@@ -52,7 +52,7 @@ Source/
 
 ### 1. Add to your project
 
-Copy the six files into your project's `Source/YourProject/` directory. Replace `MYSURVIVALPROJECT_API` with your own project's API macro (found in your project's main `.h` file).
+Copy the six files into your project's `Source/YourProject/` directory. Replace `MYSURVIVALPROJECT_API` with your own project's API macro.
 
 ### 2. Add `InteractorComponent` to your Character Blueprint
 
@@ -69,7 +69,7 @@ Add `InteractableComponent` to any Blueprint actor. Then bind the `OnInteracted`
 
 ```
 OnInteracted (Interactor)
-    → [Your pickup / open / use logic here]
+    → [Your pickup / use logic here]
     → InteractableComponent → Set Is Interactable (false)   ← optional, prevents re-triggering
 ```
 
