@@ -134,8 +134,15 @@ void UInteractorComponent::PerformInteractionTrace()
 
 	SetFocusedInteractable(HitInteractable);
 
-	// Visual debug line — green on hit, red on miss.
-	// DrawDebugLine(GetWorld(), TraceStart, TraceEnd, bHit ? FColor::Green : FColor::Red, false, -1.f, 0, 2.f);
+	// Visual debug - line & sphere — green on hit, red on miss.
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, bHit ? FColor::Green : FColor::Red, false, -1.f, 0, 2.f);
+	DrawDebugSphere(GetWorld(), TraceEnd, TraceRadius, 12, bHit ? FColor::Green : FColor::Red, false, -1.f, 0, 1.f);
+
+	// Visual debug - show a smaller solid sphere at the exact impact point when a hit is registered
+	if (bHit)
+	{
+		DrawDebugSphere(GetWorld(), DebugLastHitResult.ImpactPoint, 8.f, 8, FColor::Yellow, false, -1.f, 0, 1.5f);
+	}
 }
 
 void UInteractorComponent::TryInteract()
