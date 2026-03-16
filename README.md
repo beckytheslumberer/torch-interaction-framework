@@ -7,7 +7,7 @@
 
 ---
 
-> **📖 Deep dive →** [Becky Crawford Portfolio - Interaction Framework](https://beckytheslumberer.github.io/becky-crawford-portfolio/#/torch-interaction)
+> **📖 Deep dive →** [Becky Crawford Portfolio - Interaction Framework](https://becky-crawford-portfolio.netlify.app/#/torch-interaction)
 
 ---
 
