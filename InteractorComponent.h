@@ -79,6 +79,22 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Interaction|Debug")
 	bool bDebugLastTraceHit = false;
 
+	// Whether or not to draw the trace debug line visualization
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction|Debug")
+	bool bDebugLineTrace = false;
+
+	// Whether or not to draw the trace debug sphere visualization
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction|Debug")
+	bool bDebugSphereTrace = false;
+
+	// Whether or not to draw the trace debug impact point visualization
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction|Debug")
+	bool bDebugImpactPoint = false;
+
+	// Whether or not to draw the trace debug impact normal visualization
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction|Debug")
+	bool bDebugImpactNormal = false;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -99,4 +115,12 @@ private:
 	// Cached reference to the owner's camera component, resolved once in BeginPlay.
 	UPROPERTY()
 	UCameraComponent* CachedCamera = nullptr;
+
+	// The length of the arrow showing the debug impact normal 
+	UPROPERTY()
+	float DebugImpactNormalLength = 20.f;
+
+	// The screen-space size of the debug impact point
+	UPROPERTY()
+	float DebugImpactPointSize = 12.f;
 };

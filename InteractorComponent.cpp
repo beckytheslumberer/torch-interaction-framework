@@ -74,16 +74,17 @@ void UInteractorComponent::PerformInteractionTrace()
 
 	FHitResult HitResult;
 	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(Owner);
+	// Ignore owner
+	//Params.AddIgnoredActor(Owner);
 
 	// Ignore all primitive components on the owner (capsule, mesh, etc.) to prevent
 	// the trace from terminating on the player's own collision.
-	TArray<UPrimitiveComponent*> OwnerPrimitives;
-	Owner->GetComponents<UPrimitiveComponent>(OwnerPrimitives);
-	for (UPrimitiveComponent* Primitive : OwnerPrimitives)
-	{
-		Params.AddIgnoredComponent(Primitive);
-	}
+	//TArray<UPrimitiveComponent*> OwnerPrimitives;
+	//Owner->GetComponents<UPrimitiveComponent>(OwnerPrimitives);
+	//for (UPrimitiveComponent* Primitive : OwnerPrimitives)
+	//{
+	//	Params.AddIgnoredComponent(Primitive);
+	//}
 
 	// Use the custom Interaction trace channel so only actors set to Block this
 	// channel are candidates — avoids unintended hits on environmental geometry.
@@ -135,13 +136,29 @@ void UInteractorComponent::PerformInteractionTrace()
 	SetFocusedInteractable(HitInteractable);
 
 	// Visual debug - line & sphere — green on hit, red on miss.
-	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, bHit ? FColor::Green : FColor::Red, false, -1.f, 0, 2.f);
-	DrawDebugSphere(GetWorld(), TraceEnd, TraceRadius, 12, bHit ? FColor::Green : FColor::Red, false, -1.f, 0, 1.f);
-
-	// Visual debug - show a smaller solid sphere at the exact impact point when a hit is registered
-	if (bHit)
+	if (bDebugLineTrace)
 	{
-		DrawDebugSphere(GetWorld(), DebugLastHitResult.ImpactPoint, 8.f, 8, FColor::Yellow, false, -1.f, 0, 1.5f);
+		DrawDebugLine(GetWorld(), TraceStart, TraceEnd, bHit ? FColor::Green : FColor::Red, false, -1.f, 0, 2.f);
+	}
+	if (bDebugSphereTrace)
+	{
+		DrawDebugSphere(GetWorld(), TraceEnd, TraceRadius, 12, bHit ? FColor::Green : FColor::Red, false, -1.f, 0, 1.f);
+	}
+
+	// Visual debug - impact point & impact normal - show a yellow dot or directional arrow when a hit is registered
+	// Prioritizes showing the impact normal
+	if (bDebugImpactNormal && bHit)
+	{
+		DrawDebugDirectionalArrow(
+			GetWorld(),
+			DebugLastHitResult.ImpactPoint,
+			DebugLastHitResult.ImpactPoint + DebugLastHitResult.ImpactNormal * DebugImpactNormalLength,
+			5.f, FColor::Yellow, false, -1.f, 0, 1.5f
+		);
+	}
+	else if (bDebugImpactPoint && bHit)
+	{
+		DrawDebugPoint(GetWorld(), DebugLastHitResult.ImpactPoint, DebugImpactPointSize, FColor::Yellow, false, -1.f);
 	}
 }
 
